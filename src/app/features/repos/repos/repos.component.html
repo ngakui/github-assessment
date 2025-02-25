@@ -1,9 +1,39 @@
 <div class="p-4">
-    <mat-form-field appearance="outline">
-      <mat-label>Search Repositories</mat-label>
-      <input matInput [(ngModel)]="searchQuery" (input)="search()">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+    <h1 class="text-2xl font-bold mb-3">GitHub Repositories </h1>
+    <form [formGroup]="searchForm" (ngSubmit)="search()">
+        <div class="flex justify-between items-center">
+            <div>
+                <mat-form-field>
+                    <mat-label>Search Repositories</mat-label>
+                    <input formControlName="searchQuery" matInput placeholder="Repository name">
+                    <mat-icon matSuffix>search</mat-icon>
+                    <!-- <mat-hint *ngIf="!profileForm.valid">Cannot be empty.</mat-hint> -->
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>Search By</mat-label>
+                    <mat-select formControlName="searchBy">
+                      <mat-option value="name">Name</mat-option>
+                      <mat-option value="issue">Issue Title</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>Order by stars</mat-label>
+                    <mat-select formControlName="orderByStars">
+                    <mat-option value="asc">Ascending</mat-option>
+                    <mat-option value="desc">Descending</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+    
+            <div>
+                <button type="submit" mat-raised-button color="primary"> Search </button>
+            </div>
+        </div>
+    </form>
 
     <table mat-table [dataSource]="repos()" class="mat-elevation-z8">
       <ng-container matColumnDef="avatar">
