@@ -1,16 +1,18 @@
-import { Component, OnDestroy, signal, WritableSignal } from '@angular/core';
+import { Component, OnDestroy, signal, ViewChild, WritableSignal } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ReposService } from '../services/repos.service';
 import { Router } from '@angular/router';
 import { Repo } from '../model/repo.model';
 import { Subscription } from 'rxjs';
 import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-repos',
@@ -20,6 +22,9 @@ import { MatSortModule } from '@angular/material/sort';
     MatInputModule, 
     MatSortModule,
     MatPaginatorModule,
+    MatSelectModule,
+    MatOptionModule,
+    ReactiveFormsModule,
     FormsModule,
     DatePipe
   ],
@@ -27,16 +32,25 @@ import { MatSortModule } from '@angular/material/sort';
   styleUrl: './repos.component.scss'
 })
 export class ReposComponent implements OnDestroy {
+  @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator;
 
-  searchQuery: string = '';
   repos: WritableSignal<Repo[]> = signal([]);
+  searchForm: FormGroup = new FormGroup({});
 
   repoSubscriptions: Subscription[] = [];
 
-  constructor(private repoService: ReposService, private router: Router) { }
+  constructor(private repoService: ReposService, private router: Router, private fb: FormBuilder) { }
+
+  ngOnInit() {
+    this.searchForm = this.fb.group({
+      searchQuery: ['', Validators.required],
+      searchBy: ['name'],
+      orderByStars: ['desc']
+    });
+  }
 
   search() {
-    this.repoSubscriptions.push(this.repoService.searchRepos(this.searchQuery).subscribe((res: Repo[]) => {
+    this.repoSubscriptions.push(this.repoService.searchRepos(this.searchForm.get('searchQuery')?.value).subscribe((res: Repo[]) => {
       this.repos.set(res);
     }));
   }
