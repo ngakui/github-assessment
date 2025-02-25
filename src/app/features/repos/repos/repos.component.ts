@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReposService } from '../services/repos.service';
 import { Router } from '@angular/router';
 import { Repo } from '../model/repo.model';
@@ -16,7 +16,9 @@ import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-repos',
-  imports: [MatTableModule, 
+  imports: [
+    CommonModule,
+    MatTableModule, 
     MatIconModule, 
     MatFormFieldModule, 
     MatInputModule, 
@@ -45,12 +47,18 @@ export class ReposComponent implements OnDestroy {
     this.searchForm = this.fb.group({
       searchQuery: ['', Validators.required],
       searchBy: ['name'],
-      orderByStars: ['desc']
+      programLang: [''],
+      minStars: [1]
     });
   }
 
   search() {
-    this.repoSubscriptions.push(this.repoService.searchRepos(this.searchForm.get('searchQuery')?.value).subscribe((res: Repo[]) => {
+    this.repoSubscriptions.push(this.repoService.searchRepos(
+      this.searchForm.get('searchQuery')?.value,
+      this.searchForm.get('searchBy')?.value,
+      this.searchForm.get('programLang')?.value,
+      this.searchForm.get('minStars')?.value
+    ).subscribe((res: Repo[]) => {
       this.repos.set(res);
     }));
   }
