@@ -63,8 +63,8 @@ export class ReposComponent implements OnDestroy {
     }));
   }
 
-  viewCommits(repoName: string) {
-    this.router.navigate(['/commits', repoName]);
+  viewCommits(repoName: string, owner: string) {
+    this.router.navigate(['/commits', repoName, owner]);
   }
 
   ngOnDestroy() {
