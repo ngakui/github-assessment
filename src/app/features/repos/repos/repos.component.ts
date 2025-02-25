@@ -3,6 +3,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ReposService } from '../services/repos.service';
@@ -18,6 +19,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatFormFieldModule, 
     MatInputModule, 
     MatSortModule,
+    MatPaginatorModule,
     FormsModule,
     DatePipe
   ],

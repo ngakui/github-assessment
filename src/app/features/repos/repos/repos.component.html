@@ -27,3 +27,6 @@
       <tr mat-row *matRowDef="let row; columns: ['avatar', 'name', 'created'];" (click)="viewCommits(row.name)" class="cursor-pointer hover:bg-gray-100"></tr>
     </table>
   </div>
+  <div>
+    <mat-paginator [length]="repos().length" aria-label="Select page of GitHub search results"></mat-paginator>
+  </div>
