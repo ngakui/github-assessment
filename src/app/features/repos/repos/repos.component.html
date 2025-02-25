@@ -5,7 +5,7 @@
             <div>
                 <mat-form-field>
                     <mat-label>Search Repositories</mat-label>
-                    <input formControlName="searchQuery" matInput placeholder="Repository name">
+                    <input formControlName="searchQuery" matInput [placeholder]="this.searchForm.get('searchBy')?.value !== 'issue' ? 'Enter a repository name' : 'Enter an issue title'">
                     <mat-icon matSuffix>search</mat-icon>
                     <!-- <mat-hint *ngIf="!profileForm.valid">Cannot be empty.</mat-hint> -->
                 </mat-form-field>
@@ -19,13 +19,17 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div>
+            <mat-form-field>
+                <mat-label>Programming Language</mat-label>
+                <input formControlName="programLang" matInput placeholder="Enter a language">
+                <mat-icon matSuffix>code</mat-icon>
+                <!-- <mat-hint *ngIf="!profileForm.valid">Cannot be empty.</mat-hint> -->
+            </mat-form-field>
+            <div *ngIf="this.searchForm.get('searchBy')?.value !== 'issue'">
                 <mat-form-field>
-                    <mat-label>Order by stars</mat-label>
-                    <mat-select formControlName="orderByStars">
-                    <mat-option value="asc">Ascending</mat-option>
-                    <mat-option value="desc">Descending</mat-option>
-                    </mat-select>
+                    <mat-label>Minimum stars</mat-label>
+                    <input type="number" formControlName="minStars" matInput placeholder="Number of stars">
+                    <mat-icon matSuffix>star</mat-icon>
                 </mat-form-field>
             </div>
     
