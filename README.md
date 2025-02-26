@@ -35,7 +35,7 @@ ng genrate environments
 ```
 # Add environments variables
 ```
-github_api: 'https://api.github.com',
+githubApi: 'https://api.github.com',
 apiUrl: 'https://api.github.com/search',
 ```
 # Run the development server
