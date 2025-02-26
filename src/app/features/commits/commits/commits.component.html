@@ -1,8 +1,23 @@
 <div class="p-4 bg-gray-100">
     <h2 class="text-2xl font-bold">Commits for {{ repoName() }}</h2>
+    <button mat-raised-button color="primary" (click)="backToRepos()">Back</button>
 </div>
 
 <div class="p-4">
+    <form [formGroup]="searchForm" (ngSubmit)="searchCommits()">
+        <div class="flex gap-4 items-center content-center">
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Search commits</mat-label>
+                    <input matInput formControlName="searchQuery" placeholder="Enter a commit message">
+                </mat-form-field>
+            </div>
+            <div>
+                <button type="submit" mat-fab color="primary" aria-label="Search button with a search icon"> <mat-icon>search</mat-icon> </button>
+            </div>
+        </div>
+    </form>
+
     <table mat-table [dataSource]="commits()" class="mat-elevation-z8">
 
         <ng-container matColumnDef="author">
