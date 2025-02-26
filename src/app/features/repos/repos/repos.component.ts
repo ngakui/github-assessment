@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { searchQueryValidator } from '../../../helpers/validators/validators.helpers';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-repos',
@@ -22,6 +23,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     MatTableModule, 
     MatIconModule, 
+    MatButtonModule,
     MatFormFieldModule, 
     MatInputModule, 
     MatSortModule,

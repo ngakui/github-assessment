@@ -1,77 +1,80 @@
 <div class="p-4">
     <h1 class="text-2xl font-bold mb-3">GitHub Repositories </h1>
-    <form [formGroup]="searchForm" (ngSubmit)="search()">
-        <div class="flex justify-between items-center">
-            <div>
+    <form [formGroup]="searchForm" (ngSubmit)="search()" aria-labelledby="searchFormTitle">
+        <fieldset>
+            <legend id="searchFormTitle" class="sr-only">Search GitHub Repositories</legend>
+            <div class="flex gap-4">
+                <div>
+                    <mat-form-field>
+                        <mat-label>Search Repositories</mat-label>
+                        <input formControlName="searchQuery" matInput [placeholder]="this.searchForm.get('searchBy')?.value !== 'issue' ? 'Enter a repository name' : 'Enter an issue title'"
+                        aria-label="Search Repositories">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-label>Search By</mat-label>
+                        <mat-select formControlName="searchBy" aria-label="Search by repository name or issue title">
+                          <mat-option value="name">Name</mat-option>
+                          <mat-option value="issue">Issue Title</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
                 <mat-form-field>
-                    <mat-label>Search Repositories</mat-label>
-                    <input formControlName="searchQuery" matInput [placeholder]="this.searchForm.get('searchBy')?.value !== 'issue' ? 'Enter a repository name' : 'Enter an issue title'">
-                    <mat-icon matSuffix>search</mat-icon>
-                    <!-- <mat-hint *ngIf="!profileForm.valid">Cannot be empty.</mat-hint> -->
+                    <mat-label>Programming Language</mat-label>
+                    <input formControlName="programLang" matInput placeholder="Enter a language" aria-label="Filter by programming language">
+                    <mat-icon matSuffix>code</mat-icon>
                 </mat-form-field>
+                <div *ngIf="this.searchForm.get('searchBy')?.value !== 'issue'">
+                    <mat-form-field>
+                        <mat-label>Minimum stars</mat-label>
+                        <input type="number" formControlName="minStars" matInput placeholder="Number of stars" aria-label="Filter by minimum number of stars">
+                        <mat-icon matSuffix>star</mat-icon>
+                    </mat-form-field>
+                </div>
+        
+                <div>
+                    <button type="submit" mat-fab color="primary" aria-label="Search Repositories"> <mat-icon>search</mat-icon> </button>
+                </div>
             </div>
-            <div>
-                <mat-form-field>
-                    <mat-label>Search By</mat-label>
-                    <mat-select formControlName="searchBy">
-                      <mat-option value="name">Name</mat-option>
-                      <mat-option value="issue">Issue Title</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <mat-form-field>
-                <mat-label>Programming Language</mat-label>
-                <input formControlName="programLang" matInput placeholder="Enter a language">
-                <mat-icon matSuffix>code</mat-icon>
-                <!-- <mat-hint *ngIf="!profileForm.valid">Cannot be empty.</mat-hint> -->
-            </mat-form-field>
-            <div *ngIf="this.searchForm.get('searchBy')?.value !== 'issue'">
-                <mat-form-field>
-                    <mat-label>Minimum stars</mat-label>
-                    <input type="number" formControlName="minStars" matInput placeholder="Number of stars">
-                    <mat-icon matSuffix>star</mat-icon>
-                </mat-form-field>
-            </div>
-    
-            <div>
-                <button type="submit" mat-raised-button color="primary"> Search </button>
-            </div>
-        </div>
+        </fieldset>
     </form>
 
     <div class="relative mat-elevation-z8">
         @if (isLoadingResults() || isRateLimitReached()) {
-            <div class="absolute top-0 left-0 right-0 bottom-[56px] bg-black/15 z-10 flex items-center justify-center">
+            <div class="absolute top-0 left-0 right-0 bottom-[56px] bg-black/15 z-10 flex items-center justify-center" role="status" aria-live="polite">
             @if (isLoadingResults()) {
-                <mat-spinner></mat-spinner>
+                <mat-spinner aria-label="Loading results..."></mat-spinner>
             }
             </div>
             @if (isRateLimitReached()) {
-                <div class="max-w-[360px] text-center">
+                <div class="max-w-[360px] text-center" role="alert">
                 GitHub's API rate limit has been reached. It will be reset in the next hour.
                 </div>
             }
         }
-        <table mat-table [dataSource]="repos()" class="relative min-h-[200px] overflow-auto">
+        <table mat-table [dataSource]="repos()" class="relative min-h-[200px] overflow-auto" role="table" aria-label="List of GitHub repositories">
+            <caption class="sr-only">Table displaying search results of GitHub repositories.</caption>
             <ng-container matColumnDef="avatar">
-              <th mat-header-cell *matHeaderCellDef> Avatar </th>
-              <td mat-cell *matCellDef="let repo">
-                <img [src]="repo.owner.avatar_url" class="w-8 h-8 rounded-full">
+              <th mat-header-cell *matHeaderCellDef role="columnheader"> Avatar </th>
+              <td mat-cell *matCellDef="let repo" role="cell">
+                <img [src]="repo.owner.avatar_url" class="w-8 h-8 rounded-full" alt="Repository owner avatar">
               </td>
             </ng-container>
       
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Name </th>
-              <td mat-cell *matCellDef="let repo"> {{ repo.name }} </td>
+              <th mat-header-cell *matHeaderCellDef role="columnheader"> Name </th>
+              <td mat-cell *matCellDef="let repo" role="cell"> {{ repo.name }} </td>
             </ng-container>
       
             <ng-container matColumnDef="created">
-              <th mat-header-cell *matHeaderCellDef> Created At </th>
-              <td mat-cell *matCellDef="let repo"> {{ repo.created_at | date }} </td>
+              <th mat-header-cell *matHeaderCellDef role="columnheader"> Created At </th>
+              <td mat-cell *matCellDef="let repo" role="cell"> {{ repo.created_at | date }} </td>
             </ng-container>
       
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewCommits(row.name, row.owner)" class="cursor-pointer hover:bg-gray-100"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns" role="row"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewCommits(row.name, row.owner)" class="cursor-pointer hover:bg-gray-100 focus:ring focus:ring-blue-300 outline-none"
+            [attr.aria-label]="'View commits for repository ' + row.name" role="row"></tr>
           </table>
     </div>
   </div>
