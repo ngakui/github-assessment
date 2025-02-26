@@ -12,8 +12,15 @@ export class CommitsService {
   constructor(private http: HttpClient) { }
 
   // Fetch commits for a given repository and specifc user
-  getCommits(repoName: string, userName: string): Observable<Commit[]> {
+  getReposCommits(repoName: string, userName: string): Observable<Commit[]> {
     return this.http.get<Commit[]>(`${environment.github_api}/repos/${userName}/${repoName}/commits`).pipe(
+      map((res: any) => <Commit[]>res.map((commit: any) => commit.commit))
+    );
+  }
+
+  // Search commits inside a repository
+  searchRepoCommits(query: string, repoName: string, userName: string): Observable<Commit[]> {
+    return this.http.get<Commit[]>(`${environment.apiUrl}/commits?q=${query} repo:${userName}/${repoName}`).pipe(
       map((res: any) => <Commit[]>res)
     );
   }
