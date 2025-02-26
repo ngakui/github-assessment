@@ -17,29 +17,39 @@ export class ReposService {
 
   constructor(private http: HttpClient) { }
 
-  searchRepos(query: string, searchBy: string, language: string, minStars: number) {
+  searchRepos(query: string, searchBy: string, language: string, minStars: number, page: number, perPage: number) {
     if(searchBy === 'name')
-      return this.searchRepoByName(query, language, minStars);
+      return this.searchRepoByName(query, language, minStars, page, perPage);
     else
-      return this.searchRepoByIssue(query, language);
+      return this.searchRepoByIssue(query, language, page);
   }
 
-  searchRepoByName(repoName: string, language: string, minStars: number) {
+  searchRepoByName(repoName: string, language: string, minStars: number, page: number, perPage: number) {
     let searchQuery = `${repoName}`;
     if(language)
       searchQuery += `+language:${language}`;
     if(minStars)
       searchQuery += `+stars:>${minStars}`;
-    return this.http.get(`${environment.apiUrl}/repositories?q=${searchQuery}`).pipe(
+    return this.http.get(`${environment.apiUrl}/repositories?q=${searchQuery}`, {
+      params: {
+        page: page.toString(),
+        per_page: perPage.toString()
+      }
+    }).pipe(
       map((res: any) => <Repo[]>res.items)
     );
   }
 
-  searchRepoByIssue(issueTitle: string, language: string) {
+  searchRepoByIssue(issueTitle: string, language: string, page: number, perPage: number = 10) {
     let searchQuery = `${issueTitle}+is:issue`;
     if(language)
       searchQuery += `+language:${language}`;
-    return this.http.get(`${environment.apiUrl}/issues?q=${searchQuery}`).pipe(
+    return this.http.get(`${environment.apiUrl}/issues?q=${searchQuery}`, {
+      params: {
+        page: page.toString(),
+        per_page: perPage.toString()
+      }
+    }).pipe(
       // Extract the repository URLs
       map((res: any) => {
         const repoUrls = new Set<string>(res.items.map((item: any) => item.repository_url));
