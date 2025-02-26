@@ -21,7 +21,7 @@ export class CommitsService {
   // Search commits inside a repository
   searchRepoCommits(query: string, repoName: string, userName: string): Observable<Commit[]> {
     return this.http.get<Commit[]>(`${environment.apiUrl}/commits?q=${query} repo:${userName}/${repoName}`).pipe(
-      map((res: any) => <Commit[]>res)
+      map((res: any) => <Commit[]>res.items.map((commit: any) => commit.commit)),
     );
   }
 }
