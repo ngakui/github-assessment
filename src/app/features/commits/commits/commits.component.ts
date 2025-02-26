@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
+import { searchQueryValidator } from '../../../helpers/validators/validators.helpers';
 
 @Component({
   selector: 'app-commits',
@@ -40,7 +41,7 @@ export class CommitsComponent implements OnDestroy, OnInit {
 
   constructor(private commitService: CommitsService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder) {
     this.searchForm = this.fb.group({
-      searchQuery: ['', Validators.required]
+      searchQuery: ['', [Validators.required, searchQueryValidator()]]
     });
     this.commitSubscriptions.push(this.route.params.subscribe(params => {
       console.log('params', params);
@@ -53,7 +54,7 @@ export class CommitsComponent implements OnDestroy, OnInit {
   }
 
   searchCommits() {
-    if(this.searchForm.invalid && this.searchForm.get('searchQuery')?.value.trim() === '')
+    if(this.searchForm.invalid) 
       return;
     this.commitSubscriptions.push(this.commitService.searchRepoCommits(this.searchForm.get('searchQuery')?.value, this.repoName(), this.repoOwner()).subscribe((res: Commit[]) => {
       this.commits.set(res);
