@@ -32,16 +32,15 @@ npm install
 
 # Generate environments
 ng genrate environments
-
+```
 # Add environments variables
 ```
 github_api: 'https://api.github.com',
 apiUrl: 'https://api.github.com/search',
 ```
-
 # Run the development server
-ng serve
-```
+`ng serve`
+
 Now open `http://localhost:4200/` in your browser.
 
 ## 🛠️ Usage
