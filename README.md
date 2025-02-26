@@ -1,59 +1,88 @@
-# GithubAssessment
+# Angular GitHub Explorer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
+## 🚀 Overview
+This project is an Angular-based application that allows users to search for GitHub repositories and view their commits using the GitHub API. It includes features like:
 
-## Development server
+- Repository search with filtering options (by name, language, stars, and issue content).
+- Lazy-loaded routes for better performance.
+- Results with pagination.
+- Signals for efficient UI updates.
+- TailwindCSS for styling.
 
-To start a local development server, run:
+## 📌 Features
+- **Search Repositories**: Find repositories using GitHub's API with filtering options.
+- **View Commits**: See the commit history of a selected repository.
+- **Pagination**: Navigate results using Angular Material's paginator.
+- **Optimized UI Update**: Using Signals for efficiency.
 
-```bash
-ng serve
+## 🏗️ Installation
+### Prerequisites
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/) (v19+ recommended)
+- [Angular CLI](https://angular.io/cli)
+
+### Steps to Run Locally
+```sh
+# Clone the repository
+git clone https://github.com/ngakui/github-assessment.git
+cd github-assessment
+
+# Install dependencies
+npm install
+
+# Generate environments
+ng genrate environments
+```
+# Add environments variables
+```
+github_api: 'https://api.github.com',
+apiUrl: 'https://api.github.com/search',
+```
+# Run the development server
+`ng serve`
+
+Now open `http://localhost:4200/` in your browser.
+
+## 🛠️ Usage
+### Searching for Repositories
+1. Navigate to `/repos`.
+2. Enter a repository name, language, or issue content.
+3. Click on a repository to view its commits.
+
+### Viewing Commits
+1. Click on a repository from the search results.
+2. The `/commits` page will show a list of commits with:
+   - Commit author
+   - Commit message
+   - URL to the commit on GitHub
+3. Use the paginator to navigate through commit history.
+
+## 📂 Project Structure
+```
+/src
+ |-- app/
+ |   |-- features/   # Contain all project feature
+ |       |-- commits # Commit related files (models, services, component) 
+ |       |-- repos   # Repos related files (models, services, component) 
+ |   |-- helpers/    # Contain custom helpers
+ |   |-- app.config.ts # Main Angular configuration file
+ |   |-- app-routes.ts # Routes configuration
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🔧 Technologies Used
+- **Angular 19+** (Framework)
+- **RxJS** (Reactive Programming)
+- **TailwindCSS** (Styling)
+- **Angular Material** (UI Components)
+- **GitHub API** (Data Source)
+- **Signals** (Efficient UI updates)
 
-## Code scaffolding
+## ✅ Future Improvements
+- Implement authentication using GitHub OAuth.
+- Add more filters for repository search.
+- Improve UI/UX with animations and better responsiveness.
+- Add Local storage management to avoid Github rate limit.
+- Add Tests.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📝 License
+This project is licensed under the MIT License.

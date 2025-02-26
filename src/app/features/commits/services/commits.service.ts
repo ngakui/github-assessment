@@ -13,7 +13,7 @@ export class CommitsService {
 
   // Fetch commits for a given repository and specifc user
   getReposCommits(repoName: string, userName: string, page: number, perPage: number): Observable<Commit[]> {
-    return this.http.get<Commit[]>(`${environment.github_api}/repos/${userName}/${repoName}/commits`, {
+    return this.http.get<Commit[]>(`${environment.githubApi}/repos/${userName}/${repoName}/commits`, {
       params: {
         page: page.toString(),
         per_page: perPage.toString()

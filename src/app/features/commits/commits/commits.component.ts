@@ -78,7 +78,6 @@ export class CommitsComponent implements OnDestroy, AfterViewInit {
   getRepoCommits() {
     this.isLoadingResults.set(true);
     this.commitSubscriptions.push(this.route.params.subscribe(params => {
-      console.log('params', params);
       this.repoName.set(params['repo']);
       this.repoOwner.set(params['owner']);
       this.commitService.getReposCommits(
