@@ -86,7 +86,6 @@ export class ReposComponent implements OnDestroy, OnInit, AfterViewInit {
       this.isLoadingResults.set(false);
       this.repos.set(res);
     }, error: (err) => {
-      console.error("Error", err);
       this.isLoadingResults.set(false);
       this.isRateLimitReached.set(true);
     }}));
