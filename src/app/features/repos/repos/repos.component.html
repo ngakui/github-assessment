@@ -39,28 +39,47 @@
         </div>
     </form>
 
-    <table mat-table [dataSource]="repos()" class="mat-elevation-z8">
-      <ng-container matColumnDef="avatar">
-        <th mat-header-cell *matHeaderCellDef> Avatar </th>
-        <td mat-cell *matCellDef="let repo">
-          <img [src]="repo.owner.avatar_url" class="w-8 h-8 rounded-full">
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let repo"> {{ repo.name }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="created">
-        <th mat-header-cell *matHeaderCellDef> Created At </th>
-        <td mat-cell *matCellDef="let repo"> {{ repo.created_at | date }} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="['avatar', 'name', 'created']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['avatar', 'name', 'created'];" (click)="viewCommits(row.name, row.owner)" class="cursor-pointer hover:bg-gray-100"></tr>
-    </table>
+    <div class="relative mat-elevation-z8">
+        @if (isLoadingResults() || isRateLimitReached()) {
+            <div class="absolute top-0 left-0 right-0 bottom-[56px] bg-black/15 z-10 flex items-center justify-center">
+            @if (isLoadingResults()) {
+                <mat-spinner></mat-spinner>
+            }
+            </div>
+            @if (isRateLimitReached()) {
+                <div class="max-w-[360px] text-center">
+                GitHub's API rate limit has been reached. It will be reset in the next hour.
+                </div>
+            }
+        }
+        <table mat-table [dataSource]="repos()" class="relative min-h-[200px] overflow-auto">
+            <ng-container matColumnDef="avatar">
+              <th mat-header-cell *matHeaderCellDef> Avatar </th>
+              <td mat-cell *matCellDef="let repo">
+                <img [src]="repo.owner.avatar_url" class="w-8 h-8 rounded-full">
+              </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let repo"> {{ repo.name }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="created">
+              <th mat-header-cell *matHeaderCellDef> Created At </th>
+              <td mat-cell *matCellDef="let repo"> {{ repo.created_at | date }} </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewCommits(row.name, row.owner)" class="cursor-pointer hover:bg-gray-100"></tr>
+          </table>
+    </div>
   </div>
   <div>
-    <mat-paginator [length]="repos().length" aria-label="Select page of GitHub search results"></mat-paginator>
-  </div>
+    <mat-paginator 
+        [length]="totalRepos()"
+        [pageSize]="perPage()"
+        [pageSizeOptions]="[10, 30, 50]" 
+        aria-label="Select page of GitHub search results">
+    </mat-paginator>
+</div>
