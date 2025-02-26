@@ -1,13 +1,12 @@
 <div class="p-4">
     <h1 class="text-2xl font-bold mb-3">GitHub Repositories </h1>
     <form [formGroup]="searchForm" (ngSubmit)="search()">
-        <div class="flex justify-between items-center">
+        <div class="flex gap-4">
             <div>
                 <mat-form-field>
                     <mat-label>Search Repositories</mat-label>
                     <input formControlName="searchQuery" matInput [placeholder]="this.searchForm.get('searchBy')?.value !== 'issue' ? 'Enter a repository name' : 'Enter an issue title'">
                     <mat-icon matSuffix>search</mat-icon>
-                    <!-- <mat-hint *ngIf="!profileForm.valid">Cannot be empty.</mat-hint> -->
                 </mat-form-field>
             </div>
             <div>
@@ -23,7 +22,6 @@
                 <mat-label>Programming Language</mat-label>
                 <input formControlName="programLang" matInput placeholder="Enter a language">
                 <mat-icon matSuffix>code</mat-icon>
-                <!-- <mat-hint *ngIf="!profileForm.valid">Cannot be empty.</mat-hint> -->
             </mat-form-field>
             <div *ngIf="this.searchForm.get('searchBy')?.value !== 'issue'">
                 <mat-form-field>
@@ -34,7 +32,7 @@
             </div>
     
             <div>
-                <button type="submit" mat-raised-button color="primary"> Search </button>
+                <button type="submit" mat-fab color="primary" aria-label="Search button with a search icon"> <mat-icon>search</mat-icon> </button>
             </div>
         </div>
     </form>
