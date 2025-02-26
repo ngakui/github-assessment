@@ -1,5 +1,5 @@
 export interface Commit {
-    author: string;
+    author: {name: string};
     message: string;
     url: string;
 }
