@@ -6,6 +6,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/repos/repos.module').then(m => m.ReposModule)
     },
     {
+        path: 'commits/:repo/:owner',
+        loadChildren: () => import('./features/commits/commits.module').then(m => m.CommitsModule)
+    },
+    {
         path: '**',
         redirectTo: 'repos'
     },

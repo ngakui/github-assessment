@@ -58,7 +58,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="['avatar', 'name', 'created']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['avatar', 'name', 'created'];" (click)="viewCommits(row.name)" class="cursor-pointer hover:bg-gray-100"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['avatar', 'name', 'created'];" (click)="viewCommits(row.name, row.owner)" class="cursor-pointer hover:bg-gray-100"></tr>
     </table>
   </div>
   <div>

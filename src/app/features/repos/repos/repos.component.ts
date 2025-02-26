@@ -1,4 +1,4 @@
-import { Component, OnDestroy, signal, ViewChild, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, signal, ViewChild, WritableSignal } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -31,7 +31,8 @@ import { MatOptionModule } from '@angular/material/core';
     DatePipe
   ],
   templateUrl: './repos.component.html',
-  styleUrl: './repos.component.scss'
+  styleUrl: './repos.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReposComponent implements OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator;
@@ -63,8 +64,9 @@ export class ReposComponent implements OnDestroy {
     }));
   }
 
-  viewCommits(repoName: string) {
-    this.router.navigate(['/commits', repoName]);
+  viewCommits(repoName: string, owner: any) {
+    console.log('Viewing commits for', repoName, owner.url.split('/').pop());
+    this.router.navigate(['/commits', repoName, owner.url.split('/').pop()]);
   }
 
   ngOnDestroy() {
