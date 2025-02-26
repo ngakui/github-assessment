@@ -6,7 +6,7 @@ export const routes: Routes = [
         loadChildren: () => import('./features/repos/repos.module').then(m => m.ReposModule)
     },
     {
-        path: 'commits/:owner/:repo',
+        path: 'commits/:repo/:owner',
         loadChildren: () => import('./features/commits/commits.module').then(m => m.CommitsModule)
     },
     {
